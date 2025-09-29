@@ -21,4 +21,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 EXPOSE 2026
 
-CMD ["python", "-m", "app.amin"]
+CMD ["python", "-m", "app.main"]
