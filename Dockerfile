@@ -11,6 +11,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+RUN crawl4ai-setup
+
+RUN crawl4ai-doctor || echo "Doctor check completed with warnings"
+
 COPY . .
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser
