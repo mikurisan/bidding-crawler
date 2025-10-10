@@ -4,7 +4,8 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app
+    PYTHONPATH=/app \
+    PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
@@ -13,7 +14,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY . .
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser
-RUN chown -R appuser:appuser /app
+RUN chown -R appuser:appuser /app && \
+    chown -R appuser:appuser /home/appuser
 USER appuser
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \

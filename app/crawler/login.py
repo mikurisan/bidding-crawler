@@ -38,7 +38,7 @@ class QianLiMaLoginStrategy:
             if await qr_img.is_visible(timeout=2000):
 
                 #TODO: 后期转为使用钉钉通知实现
-                await qr_img.screenshot(path=r"C:\Users\admin.DESKTOP-BMLIM5G\Desktop\repo\bidding-crawler\captcha.png")
+                await qr_img.screenshot(path=r"/home/appuser/captcha.png")
                 logger.info("QR code saved, waiting for scan...")
 
                 await page.wait_for_url("**/new_qd_yfbsite/**", timeout=30000)
