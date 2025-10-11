@@ -24,7 +24,7 @@ class DatabaseManager:
             )
             
         self.engine = create_engine(
-            database_url,
+            db_url,
             pool_size=10,
             max_overflow=20,
             pool_pre_ping=True,
@@ -36,4 +36,4 @@ class DatabaseManager:
     def create_session(self) -> Session:
         return Session(self.engine)
 
-db_manager = DatabaseManager("mysql+pymysql://root:Jaka2022!@172.30.1.196:3306/test?charset=utf8mb4")
+db_manager = DatabaseManager()
