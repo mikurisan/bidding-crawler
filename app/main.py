@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from app.core import setup_logger
-from app.core import create_instance
 from app.api import crawler_router
 from fastapi.staticfiles import StaticFiles
 import uvicorn
@@ -8,7 +7,7 @@ from pathlib import Path
 
 setup_logger()
 
-app = FastAPI(lifespan=create_instance)
+app = FastAPI()
 app.include_router(crawler_router)
 
 @app.get("/health")

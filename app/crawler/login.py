@@ -22,7 +22,6 @@ class QianLiMaLoginStrategy:
             
             # Handle popup
             try:
-
                 await page.locator(".el-message-box__btns button").click(timeout=2000)
             except:
                 pass
@@ -38,7 +37,6 @@ class QianLiMaLoginStrategy:
             qr_img = page.locator("#qrcode > div.saomaWrapWX > img")
             if await qr_img.is_visible(timeout=2000):
 
-                #TODO: 后期转为使用钉钉通知实现
                 await qr_img.screenshot(path=r"./static/captcha.png")
                 logger.info("QR code saved, waiting for scan...")
 

@@ -4,12 +4,7 @@ from crawl4ai import  AsyncWebCrawler, BrowserConfig, LLMExtractionStrategy, LLM
 from typing import Any
 from .login import QianLiMaLoginStrategy
 from pydantic import BaseModel
-from app.repositories import QianlimaBiddingDetailHeadRepository, QianlimaBiddingDetailAbstractRepository
-from app.repositories import QianlimaBiddingDetailContentRepository, QianlimaBiddingDetailContactRepository
-from datetime import datetime
 from app.utils import create_event
-import asyncio
-import json
 
 class Contact(BaseModel):
     name: str

@@ -1,9 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
-from app.crawler import CrawlerManager
-from app.core import get_crawler_manager
 from app.service import start_crawling, push_to_crm
-from app.core import get_crawler_manager
 
 router = APIRouter()
 
@@ -25,11 +22,10 @@ router = APIRouter()
     }
 )
 async def get_crawl_results(
-    keyword: str,
-    crawler_manager: CrawlerManager = Depends(get_crawler_manager)
+    keyword: str
 ):
     return StreamingResponse(
-        start_crawling(keyword, crawler_manager),
+        start_crawling(keyword),
         media_type="text/event-stream"
     )
 
