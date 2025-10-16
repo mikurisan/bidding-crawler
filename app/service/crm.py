@@ -22,15 +22,15 @@ async def push_to_crm():
                 record_id = repo.create_from_bidding_detail(clue)
 
             data = {
-                'timestamp': datetime.now().isoformat(),
-                'content': record_id
+                "timestamp": datetime.now().isoformat(),
+                "content": record_id
             }
             json_data = json.dumps(data, ensure_ascii=False)
             yield f"event: push_to_crm\ndata: {json_data}\n\n"
         else:
             data = {
-                'timestamp': datetime.now().isoformat(),
-                'content': False
+                "timestamp": datetime.now().isoformat(),
+                "content": response["error"]
             }
             json_data = json.dumps(data, ensure_ascii=False)
             yield f"event: push_to_crm\ndata: {json_data}\n\n"
