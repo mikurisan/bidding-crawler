@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from app.db import id_generator
 from .base import BaseRepository
 from sqlmodel import select, func
+from datetime import datetime, timedelta
 import json
 import logging
 
@@ -77,11 +78,12 @@ class QianlimaBiddingDetailHeadRepository(BaseRepository):
                 QianlimaBiddingDetailContact,
                 QianlimaBiddingDetailHead.id == QianlimaBiddingDetailContact.head_id
             ).where(
-            QianlimaBiddingDetailHead.id.not_in(
-                select(QianlimaBiddingDetailsToCrm.head_id).where(
-                    QianlimaBiddingDetailsToCrm.head_id.is_not(None)
-                    )
-                )
+                QianlimaBiddingDetailHead.id.not_in(
+                    select(QianlimaBiddingDetailsToCrm.head_id).where(
+                        QianlimaBiddingDetailsToCrm.head_id.is_not(None)
+                        )
+                    ),
+                QianlimaBiddingDetailHead.released_at >= datetime.now().date() - timedelta(days=7)
             )
 
             results = self.session.exec(statement).all()

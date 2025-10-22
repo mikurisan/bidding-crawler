@@ -6,7 +6,7 @@ def add_sale_clue_crm(company_name, describe, phone_number, province, user_name)
     payload = {
         "applicationArea": "",
         "city": "",
-        "clueName": "数字化爬虫",
+        "clueName": "招标网",
         "coUserId": "",
         "communicateMatter": 0,
         "companyName": company_name,
@@ -18,7 +18,7 @@ def add_sale_clue_crm(company_name, describe, phone_number, province, user_name)
         "isValid": 0,
         "phoneNumber": phone_number,
         "province": province,
-        "referee": "数字化爬虫",
+        "referee": "招标网",
         "specificRequirements": "",
         "tags": [],
         "userName": user_name,

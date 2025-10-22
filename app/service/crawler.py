@@ -1,5 +1,4 @@
 import asyncio
-from fastapi import HTTPException
 from app.crawler.crawler import QianLiMaLoginStrategy, QianLiMaCrawler
 from app.utils import parse_sse_event, create_event
 from app.repositories import QianlimaBiddingDetailHeadRepository
