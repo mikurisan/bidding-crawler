@@ -33,6 +33,8 @@ pipreqs . --encoding=utf8
  export DATABASE_URL="mysql+pymysql://root:Jaka2022!@172.30.1.196:3306/test?charset=utf8mb4"
 
  export ALI_API_KEY="sk-98c4xxxxxxx524b5ec"
+
+ export DOWNLOAD_DIR="/home/app/download"
 ```
 
 ## 整体实现

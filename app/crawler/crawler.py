@@ -6,6 +6,7 @@ from .login import QianLiMaLoginStrategy
 from pydantic import BaseModel
 from app.utils import create_event
 
+
 class Contact(BaseModel):
     name: str
     telphone: str
@@ -16,7 +17,8 @@ class Content(BaseModel):
 class Crawler(ABC):
     def __init__(
             self, login_strategy: QianLiMaLoginStrategy, base_url: str,
-            headless: bool, verbose: bool, session_id: str
+            headless: bool, verbose: bool, session_id: str,
+            downloads_path: str
         ):
         super().__init__()
         self.base_url = base_url
@@ -27,6 +29,8 @@ class Crawler(ABC):
                 verbose=verbose,
                 use_persistent_context=True,
                 use_managed_browser=True,
+                accept_downloads=True,
+                downloads_path=downloads_path,
                 user_data_dir="./cached_user_profile",
                 viewport_height=1080,
                 viewport_width=1920
@@ -63,16 +67,16 @@ class Crawler(ABC):
 class QianLiMaCrawler(Crawler):
     def __init__(
             self, login_strategy: QianLiMaLoginStrategy,
-            base_url: str = "https://qiye.qianlima.com",
-            headless: bool = True, verbose: bool = True,
-            session_id: str = None
+            downloads_path: str, base_url: str = "https://qiye.qianlima.com",
+            headless: bool = True, verbose: bool = True, session_id: str = None
         ):
         super().__init__(
             login_strategy = login_strategy,
             base_url = base_url,
             headless = headless,
             verbose = verbose,
-            session_id = session_id
+            session_id = session_id,
+            downloads_path = downloads_path
         )
 
     async def get_detail_head(self, query_url: str) -> Any:
@@ -429,6 +433,38 @@ class QianLiMaCrawler(Crawler):
         )
         detail_contact = await self.crawler.arun(url=query_url, config=config)
         return detail_contact.extracted_content
+    
+    async def download_detail_pdf(self, query_url: str):
+        """Click "export" button to download the pdf file of current detail page."""
+        wait_for_button = ".long-project-property-right > div:nth-child(3)"
+        config1 = CrawlerRunConfig(
+            session_id=self.session_id,
+            wait_for=wait_for_button,
+            js_only=True
+        )
+        await self.crawler.arun(query_url, config=config1)
+
+        js_click_button = """
+        const selector = ".long-project-property-right > div:nth-child(3)";
+        const button = document.querySelector(selector);
+        if (button) button.click();
+        """
+        config2 = CrawlerRunConfig(
+            session_id=self.session_id,
+            js_code=js_click_button,
+            wait_for=1
+        )
+        result = await self.crawler.arun(query_url, config=config2)
+        
+        # The following code can't fetch `downloaded_fiels` even though
+        # the file has already been downloaded, because the Crawl4Ai
+        # framework is fucky, a piece of shit, fuck it all
+        # if result.downloaded_files:
+        #     for file_path in result.downloaded_files:
+        #         print(file_path)
+        
+        return None
+
 
     async def iterate_search_results(
             self, keyword: str = None,

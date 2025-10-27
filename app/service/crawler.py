@@ -5,6 +5,8 @@ from app.repositories import QianlimaBiddingDetailHeadRepository
 from app.repositories import QianlimaBiddingDetailAbstractRepository
 from app.repositories import QianlimaBiddingDetailContentRepository
 from app.repositories import QianlimaBiddingDetailContactRepository
+import os
+import json
 
 crawler_lock = asyncio.Lock()
 
@@ -17,11 +19,13 @@ async def start_crawling(
 
     async with crawler_lock:
         qianlima_login = QianLiMaLoginStrategy()
+        downloads_path = os.getenv('DOWNLOAD_DIR')
         
         async with QianLiMaCrawler(
             login_strategy=qianlima_login,
-            headless=True,
-            session_id = "qianlima"
+            headless=False,
+            session_id = "qianlima",
+            downloads_path = downloads_path
         ) as crawler:
             async for sse_event in crawler.iterate_search_results(keyword=keyword):
                 event, data = parse_sse_event(sse_event)
@@ -34,6 +38,7 @@ async def start_crawling(
                     redirected_url = data.get("content")
 
                 detail_head = await crawler.get_detail_head(redirected_url)
+
                 with QianlimaBiddingDetailHeadRepository() as head_repo:
                     created_ids = head_repo.create_records_from_json(detail_head, redirected_url)
 
@@ -54,5 +59,10 @@ async def start_crawling(
                     contact_repo.create_records_from_json(detail_contact, created_ids[0])
 
                 yield create_event("created_record", created_ids[0])
+
+                await crawler.download_detail_pdf(redirected_url)
+                file_name = "/" + json.loads(detail_head)[0].get('title') + ".pdf"
+                print(downloads_path + file_name)
+                #TODO: upload file
 
                 await crawler.close_detail(redirected_url)
