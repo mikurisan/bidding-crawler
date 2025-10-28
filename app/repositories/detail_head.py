@@ -66,7 +66,8 @@ class QianlimaBiddingDetailHeadRepository(BaseRepository):
                 QianlimaBiddingDetailContent.content,
                 QianlimaBiddingDetailContact.telphone,
                 func.substring_index(QianlimaBiddingDetailHead.area, '-', 1).label('area_prefix'),
-                QianlimaBiddingDetailContact.name
+                QianlimaBiddingDetailContact.name,
+                QianlimaBiddingDetailHead.title
             ).select_from(QianlimaBiddingDetailHead)\
             .outerjoin(
                 QianlimaBiddingDetailAbstract, 
@@ -83,7 +84,8 @@ class QianlimaBiddingDetailHeadRepository(BaseRepository):
                         QianlimaBiddingDetailsToCrm.head_id.is_not(None)
                         )
                     ),
-                QianlimaBiddingDetailHead.released_at >= datetime.now().date() - timedelta(days=7)
+                QianlimaBiddingDetailHead.released_at >= datetime.now().date() - timedelta(days=7),
+                QianlimaBiddingDetailContact.telphone.not_like('%*%') 
             )
 
             results = self.session.exec(statement).all()

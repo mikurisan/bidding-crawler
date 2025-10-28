@@ -1,6 +1,6 @@
 import requests
 
-def add_sale_clue_crm(company_name, describe, phone_number, province, user_name):
+def add_sale_clue_crm(company_name, describe, phone_number, province, user_name, title):
     url = "http://172.30.3.80:32110/virtual/addSaleClue"
     
     payload = {
@@ -15,6 +15,13 @@ def add_sale_clue_crm(company_name, describe, phone_number, province, user_name)
         "crmType": "",
         "describe": describe,
         "email": "",
+        "files": [
+            {
+                "attachIndex": "{{域名}}/" + title + ".pdf",
+                "ext": "pdf",
+                "filename": title
+            }
+        ],
         "isValid": 0,
         "phoneNumber": phone_number,
         "province": province,

@@ -14,7 +14,8 @@ async def push_to_crm():
             describe=clue.content,
             phone_number=clue.telphone,
             province=clue.area,
-            user_name=clue.name
+            user_name=clue.name,
+            title=clue.title
         )
 
         if response["success"]:

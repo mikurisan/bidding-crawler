@@ -3,6 +3,7 @@ from app.core import setup_logger
 from app.api import crawler_router
 from fastapi.staticfiles import StaticFiles
 import uvicorn
+import os
 from pathlib import Path
 
 setup_logger()
@@ -18,6 +19,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 static_dir = BASE_DIR / "static"
 static_dir.mkdir(exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+downloads_dir = Path(os.getenv('DOWNLOAD_DIR'))
+downloads_dir.mkdir(exist_ok=True)
+app.mount("/downloaded_pdf", StaticFiles(directory=str(downloads_dir)), name="downloaded_pdf")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=2026)
