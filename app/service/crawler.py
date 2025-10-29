@@ -22,7 +22,7 @@ async def start_crawling(
         
         async with QianLiMaCrawler(
             login_strategy=qianlima_login,
-            headless=False,
+            headless=True,
             session_id = "qianlima",
             downloads_path = DOWNLOAD_DIR
         ) as crawler:
