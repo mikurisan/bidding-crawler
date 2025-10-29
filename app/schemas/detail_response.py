@@ -8,3 +8,4 @@ class BiddingDetailResponse(SQLModel):
     telphone: Optional[str]
     area: Optional[str]
     name: Optional[str]
+    title: Optional[str]
