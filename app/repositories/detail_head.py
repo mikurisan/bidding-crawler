@@ -97,7 +97,8 @@ class QianlimaBiddingDetailHeadRepository(BaseRepository):
                     content=result.content,
                     telphone=result.telphone,
                     area=result.area_prefix,
-                    name=result.name
+                    name=result.name,
+                    title=result.title
                 )
                 for result in results
             ]
