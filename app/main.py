@@ -20,9 +20,9 @@ static_dir = BASE_DIR / "static"
 static_dir.mkdir(exist_ok=True)
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
-downloads_dir = Path(os.getenv('DOWNLOAD_DIR'))
-downloads_dir.mkdir(exist_ok=True)
-app.mount("/download", StaticFiles(directory=str(downloads_dir)), name="download")
+DOWNLOAD_DIR = Path(os.getenv('DOWNLOAD_DIR'))
+DOWNLOAD_DIR.mkdir(exist_ok=True)
+app.mount("/download", StaticFiles(directory=str(DOWNLOAD_DIR)), name="download")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=2026)

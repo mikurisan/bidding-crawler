@@ -35,6 +35,8 @@ pipreqs . --encoding=utf8
  export ALI_API_KEY="sk-98c4xxxxxxx524b5ec"
 
  export DOWNLOAD_DIR="/home/app/download"
+
+ export DOWNLOAD_URL="https://pd.jaka.com/ai-collect/download/"
 ```
 
 ## 整体实现

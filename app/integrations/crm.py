@@ -1,4 +1,7 @@
 import requests
+import os
+
+DOWNLOAD_URL = os.getenv('DOWNLOAD_URL')
 
 def add_sale_clue_crm(company_name, describe, phone_number, province, user_name, title):
     url = "http://172.30.3.80:32110/virtual/addSaleClue"
@@ -17,7 +20,7 @@ def add_sale_clue_crm(company_name, describe, phone_number, province, user_name,
         "email": "",
         "files": [
             {
-                "attachIndex": "{{域名}}/" + title + ".pdf",
+                "attachIndex": DOWNLOAD_URL + title + ".pdf",
                 "ext": "pdf",
                 "filename": title
             }
