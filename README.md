@@ -37,6 +37,10 @@ pipreqs . --encoding=utf8
  export DOWNLOAD_DIR="/home/app/download"
 
  export DOWNLOAD_URL="https://pd.jaka.com/ai-collect/download/"
+
+ $env:OSS_ACCESS_KEY_ID="LTXXXXXXXXXXXXXXXZq"
+
+ $env:OSS_ACCESS_KEY_SECRET="04uuXXXXXXXXXXXXfIa"
 ```
 
 ## 整体实现
