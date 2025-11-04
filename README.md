@@ -30,17 +30,17 @@ pipreqs . --encoding=utf8
 导入环境变量:
 
 ```
- export DATABASE_URL="mysql+pymysql://root:Jaka2022!@172.30.1.196:3306/test?charset=utf8mb4"
+ export DATABASE_URL="mysql+pymysql://root:xxxxx022!@172.30.1.196:3306/test?charset=utf8mb4"
 
  export ALI_API_KEY="sk-98c4xxxxxxx524b5ec"
 
- export DOWNLOAD_DIR="/home/app/download"
+ export DOWNLOAD_DIR="/home/app/download/"
 
- export DOWNLOAD_URL="https://pd.jaka.com/ai-collect/download/"
+ export DOWNLOAD_URL="https://xxxxxx.ai.aliyuncs.com/xxxx/"
 
- $env:OSS_ACCESS_KEY_ID="LTXXXXXXXXXXXXXXXZq"
+ export OSS_ACCESS_KEY_ID="LTXXXXXXXXXXXXXXXZq"
 
- $env:OSS_ACCESS_KEY_SECRET="04uuXXXXXXXXXXXXfIa"
+ export OSS_ACCESS_KEY_SECRET="04uuXXXXXXXXXXXXfIa"
 ```
 
 ## 整体实现
