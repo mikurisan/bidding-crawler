@@ -6,6 +6,9 @@ from urllib.parse import quote
 
 import json
 import os
+import time
+import random
+import string
 
 
 DOWNLOAD_DIR = os.getenv('DOWNLOAD_DIR')
@@ -21,20 +24,46 @@ def sanitize_filename(filename):
     result = filename.replace(':', '_').replace(' ', '+').replace('/', '_')
     return result
 
+def generate_filename_with_timestamp(extension='txt', prefix='', length=8):
+    """
+    生成带时间戳和随机字符的文件名
+    
+    attrs:
+        extension: 文件扩展名，默认为'txt'
+        prefix: 文件名前缀，默认为空
+        length: 随机字符串长度，默认为8
+    
+    returns:
+        生成的文件名字符串
+    """
+    # 获取当前时间戳
+    timestamp = str(int(time.time()))
+    
+    # 生成随机字符串
+    random_str = ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+    
+    # 组合文件名
+    if prefix:
+        filename = f"{prefix}_{timestamp}_{random_str}.{extension}"
+    else:
+        filename = f"{timestamp}_{random_str}.{extension}"
+    
+    return filename
+
 async def push_to_crm():
     with QianlimaBiddingDetailHeadRepository() as r:
         results = r.get_bidding_details()
     
     for clue in results:
 
-        file_name = sanitize_filename(clue.title) + ".pdf"
-        print(f"title: {clue.title} file_name: {file_name}")
-        file_path = DOWNLOAD_DIR + file_name
+        file_name = sanitize_filename(clue.title) 
+        file_path = DOWNLOAD_DIR + file_name + ".pdf"
 
-        if not upload_to_ali_oss(file_path, file_name):
+        file_name_to_oss = generate_filename_with_timestamp(extension="pdf")
+        if not upload_to_ali_oss(file_path, file_name_to_oss):
             return
-        
-        file_url = DOWNLOAD_URL + quote(file_name, safe='')
+
+        file_url = DOWNLOAD_URL + quote(file_name_to_oss, safe='')
         yield f"event: upload_to_ali_oss\ndata: {file_url}\n\n"
 
         response = add_sale_clue_crm(
