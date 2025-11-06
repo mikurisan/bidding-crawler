@@ -50,9 +50,6 @@ def generate_filename_with_timestamp(extension='txt', prefix='', length=8):
     
     return filename
 
-def rename_local_file(file_name):
-    pass
-
 async def push_to_crm():
     with QianlimaBiddingDetailHeadRepository() as r:
         results = r.get_bidding_details()
