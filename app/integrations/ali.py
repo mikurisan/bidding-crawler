@@ -22,4 +22,5 @@ def upload_to_ali_oss(file_path, file_name):
     if result.status_code == 200:
         return True
 
+    print(result)
     return False

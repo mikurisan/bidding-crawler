@@ -50,6 +50,9 @@ def generate_filename_with_timestamp(extension='txt', prefix='', length=8):
     
     return filename
 
+def rename_local_file(file_name):
+    pass
+
 async def push_to_crm():
     with QianlimaBiddingDetailHeadRepository() as r:
         results = r.get_bidding_details()
@@ -60,8 +63,13 @@ async def push_to_crm():
         file_path = DOWNLOAD_DIR + file_name + ".pdf"
 
         file_name_to_oss = generate_filename_with_timestamp(extension="pdf")
-        if not upload_to_ali_oss(file_path, file_name_to_oss):
-            return
+        try:
+            if not upload_to_ali_oss(file_path, file_name_to_oss):
+                yield f"event: upload_to_ali_oss\ndata: 返回 False, 请检查打印日志\n\n"
+                continue
+        except Exception as e:
+            yield f"event: upload_to_ali_oss\ndata: {e}\n\n"
+            continue
 
         file_url = DOWNLOAD_URL + quote(file_name_to_oss, safe='')
         yield f"event: upload_to_ali_oss\ndata: {file_url}\n\n"
