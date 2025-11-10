@@ -78,7 +78,7 @@ async def push_to_crm():
             province=clue.area,
             user_name=clue.name,
             file_url=file_url,
-            file_name=file_name
+            file_name=file_name + ".pdf"
         )
 
         if response["success"]:
