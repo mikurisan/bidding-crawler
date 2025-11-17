@@ -64,7 +64,7 @@ class QianlimaBiddingDetailHeadRepository(BaseRepository):
                 QianlimaBiddingDetailHead.id,
                 QianlimaBiddingDetailAbstract.bidding_org,
                 QianlimaBiddingDetailContent.content,
-                QianlimaBiddingDetailContact.telphone,
+                func.replace(QianlimaBiddingDetailContact.telphone, '-', '').label('telphone'),
                 func.substring_index(QianlimaBiddingDetailHead.area, '-', 1).label('area_prefix'),
                 QianlimaBiddingDetailContact.name,
                 QianlimaBiddingDetailHead.title
