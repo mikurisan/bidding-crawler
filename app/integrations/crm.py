@@ -40,18 +40,25 @@ def add_sale_clue_crm(company_name, describe, phone_number, province, user_name,
     
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=30)
-        
-        response.raise_for_status()
-        
-        return {
-            'success': True,
-            'status_code': response.status_code,
-            'data': response.json() if response.content else None
-        }
-        
-    except requests.exceptions.RequestException as e:
+        response.raise_for_status()   # 保留，避免出现网络异常却误判为成功
+        resp_json = response.json()
+    except requests.RequestException as e:
         return {
             'success': False,
             'error': str(e),
             'status_code': getattr(e.response, 'status_code', None) if hasattr(e, 'response') else None
+        }
+
+    data_msg = resp_json.get('data')
+    if data_msg == "客户已分配成功":
+        return {
+            'success': True,
+            'status_code': response.status_code,
+            'data': data_msg
+        }
+    else:
+        return {
+            'success': False,
+            'status_code': response.status_code,
+            'error': data_msg  # 或者放到 data 中，看你的接口约定
         }
