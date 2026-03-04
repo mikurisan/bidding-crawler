@@ -1,9 +1,9 @@
 import requests
-
+import os
 
 def add_sale_clue_crm(company_name, describe, phone_number, province, user_name, file_url, file_name):
-    url = "http://172.30.3.80:32110/virtual/addSaleClue"
-    
+    url = os.getenv('CRM_ADD_SALE_CLUE')
+
     payload = {
         "applicationArea": "",
         "city": "",
