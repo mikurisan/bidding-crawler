@@ -2,7 +2,8 @@ import requests
 import os
 
 def add_sale_clue_crm(company_name, describe, phone_number, province, user_name, file_url, file_name):
-    url = os.getenv('CRM_ADD_SALE_CLUE')
+    server_ip = os.getenv('SERVER_IP')
+    url = f"http://{server_ip}:32110/virtual/addSaleClue"
 
     payload = {
         "applicationArea": "",
